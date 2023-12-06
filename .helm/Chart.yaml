@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: foo-helm
+version: 1.0.0
+dependencies:
+- name: library-helm-chart
+  version: ~0.0.24
+  repository: "@library-helm-chart"

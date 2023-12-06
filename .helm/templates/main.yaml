@@ -1,0 +1,12 @@
+---
+{{ include "library-helm-chart.configmap" . }}
+---
+{{ include "library-helm-chart.deployment" . }}
+---
+{{ include "library-helm-chart.jobs" . }}
+---
+{{ include "library-helm-chart.service" . }}
+---
+{{ include "library-helm-chart.externalSecret" . }}
+---
+{{ include "library-helm-chart.serviceAccount" . }}

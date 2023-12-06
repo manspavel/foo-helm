@@ -1,0 +1,78 @@
+# Deployments
+podLabels:
+  foo: helm
+
+containers:
+  - name: app
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 100m
+      limits:
+        memory: 128Mi
+        cpu: 100m
+
+    # special envs
+    envs:
+      - name: SOME_OF_ENV
+        value: "foo"
+      - name: OTHER_ENV
+        value: "helm"
+
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+
+
+    volumeMounts: {}
+
+    preStop:
+      command:
+        - /bin/bash
+        - -c
+        - "/bin/sleep 1; kill -QUIT 1"
+
+    workingDir: /var/www/foo
+
+# Set true value if app should use db, queue, cache, etc
+accessTo:
+  postgresDB: true
+  rabbitmq: true
+
+# envs
+envs:
+  APP_NAME: foo_helm
+
+# Services
+services:
+  - name: foo-helm
+    ports:
+    - name: grpc
+      number: "8080"
+    - name: metrics
+      number: "1240"
+
+# Ingress
+ingresses: {}
+
+# HorizontalPodAutoscaler
+# Uncomment strings below for enable HPA
+# autoscaling:
+#   minReplicas: 2
+#   maxReplicas: 5
+#   UtilizationPercentage: 80
+
+# PodDisruptionBudget
+# Uncomment strings below for enable PodDisruptionBudget
+# PodDisruptionBudget:
+#   minAvailable: 1
+
+serviceAccount: {}
